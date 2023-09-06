@@ -14,6 +14,7 @@ def write_content_file(content_limit: int, filename: str):
 
 
 def calculate(x, y):
+    @deco_utils.time_examination
     @deco_utils.logged(*data.calculate_state(x, y))
     def response():
         return x - y

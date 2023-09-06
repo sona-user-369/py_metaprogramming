@@ -22,7 +22,18 @@ def file_deco(func):
     return file_manage
 
 
+def time_examination(func):
+    @wraps(func)
+    def decorator(*args, **kwargs):
+        start = time.time()
+        result = func(*args, *kwargs)
+        print('execution time is {0}'.format(time.time() - start))
+        return result
+    return decorator
+
+
 def attach_scan(obj, func=None):
+    """this function attach another function as an attribute"""
     if func is None:
         return partial(attach_scan, obj)
     setattr(obj, func.__name__, func)
@@ -32,14 +43,13 @@ def attach_scan(obj, func=None):
 def logged(level, message=None, name=None):
     def decorator(func):
 
-        log_name = name if name is not None else func.__name__
+        log_name = name if name is not None else func.__module__
         msg_changed = False if message is not None else True
         msg = message if message is not None else 'Default message'
         log = logging.getLogger(log_name)
 
         @wraps(func)
         def scan_action(*args, **kwargs):
-            start = time.time()
             possible_logging = (
                 logging.CRITICAL,
                 logging.ERROR,
@@ -53,7 +63,6 @@ def logged(level, message=None, name=None):
             if msg_changed:
                 print('Try provide a correct message for logging in future !')
             log.log(level, msg)
-            print('execution during {0}'.format(-start+time.time()))
             return func(*args, **kwargs)
 
         @attach_scan(scan_action)
