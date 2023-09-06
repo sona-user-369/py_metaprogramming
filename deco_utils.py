@@ -29,7 +29,7 @@ def attach_scan(obj, func=None):
     return func
 
 
-def logged(level, name=None, message=None):
+def logged(level, message=None, name=None):
     def decorator(func):
 
         log_name = name if name is not None else func.__name__
@@ -39,6 +39,7 @@ def logged(level, name=None, message=None):
 
         @wraps(func)
         def scan_action(*args, **kwargs):
+            start = time.time()
             possible_logging = (
                 logging.CRITICAL,
                 logging.ERROR,
@@ -52,6 +53,7 @@ def logged(level, name=None, message=None):
             if msg_changed:
                 print('Try provide a correct message for logging in future !')
             log.log(level, msg)
+            print('execution during {0}'.format(-start+time.time()))
             return func(*args, **kwargs)
 
         @attach_scan(scan_action)
