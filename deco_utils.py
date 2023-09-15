@@ -80,3 +80,12 @@ def logged(level, message=None, name=None):
         return scan_action
 
     return decorator
+
+def typing_verification(*ty_args, **ty_kwargs):
+
+    def decorator(func):
+
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+
+            return func()
