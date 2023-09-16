@@ -20,3 +20,9 @@ def calculate(x, y):
         return x - y
 
     return response
+
+
+@deco_utils.typing_verification(int, int)
+def compare_object(x, y):
+    print('You gonna compare two int')
+    return x < y

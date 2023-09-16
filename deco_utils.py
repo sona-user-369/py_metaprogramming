@@ -1,6 +1,7 @@
 from functools import wraps, partial
 import time
 import logging
+from inspect import signature
 
 
 def file_deco(func):
@@ -81,11 +82,25 @@ def logged(level, message=None, name=None):
 
     return decorator
 
+
 def typing_verification(*ty_args, **ty_kwargs):
 
     def decorator(func):
 
+        if not __debug__:
+            return func
+        sig = signature(func)
+        target_types = sig.bind_partial(*ty_args, **ty_kwargs).arguments
+
         @wraps(func)
         def wrapper(*args, **kwargs):
-
-            return func()
+            return_types = sig.bind(*args, **kwargs).arguments.items()
+            for name, value in return_types:
+                if name in target_types:
+                    if not isinstance(value, target_types[name]):
+                        raise TypeError(
+                            'Argument {0} must {1}. Sorry !'.format(name, target_types[name])
+                        )
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator

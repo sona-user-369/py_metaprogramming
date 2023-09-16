@@ -16,7 +16,8 @@ def calculation(x, y):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.WARNING)
-    a = calculation(2, 7)
+    # logging.basicConfig(level=logging.WARNING)
+    # a = calculation(2, 7)
     # a.set_message('New message')
-    print(a())
+    # print(a())
+    utils.compare_object(2, 'string')
