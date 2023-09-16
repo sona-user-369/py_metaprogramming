@@ -26,3 +26,10 @@ def calculate(x, y):
 def compare_object(x, y):
     print('You gonna compare two int')
     return x < y
+
+
+@deco_utils.Counter
+def facto(x):
+    if x == 0:
+        return 1
+    return x*facto(x-1)

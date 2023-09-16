@@ -20,4 +20,7 @@ if __name__ == '__main__':
     # a = calculation(2, 7)
     # a.set_message('New message')
     # print(a())
-    utils.compare_object(2, 'string')
+    # utils.compare_object(2, 'string')
+    print(utils.facto(6))
+    print(utils.facto.ncall)
+

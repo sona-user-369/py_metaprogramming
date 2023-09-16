@@ -1,3 +1,4 @@
+import types
 from functools import wraps, partial
 import time
 import logging
@@ -104,3 +105,19 @@ def typing_verification(*ty_args, **ty_kwargs):
             return func(*args, **kwargs)
         return wrapper
     return decorator
+
+
+class Counter:
+    def __init__(self, func):
+        wraps(func)(self)
+        self.ncall = 0
+
+    def __call__(self, *args, **kwargs):
+        self.ncall += 1
+        return self.__wrapped__( *args, **kwargs)
+
+    def __get__(self, instance, cls):
+        if not instance:
+            return self
+
+        return types.MethodType(self,instance)
