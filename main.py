@@ -27,6 +27,6 @@ if __name__ == '__main__':
     # utils.compare_object(2, 'string')
     # print(utils.facto(90))
     # print(utils.facto.ncall)
-    extra(1, 2, extra=1)
+    extra(1, 2)
 
 
