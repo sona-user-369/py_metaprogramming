@@ -101,7 +101,7 @@ def typing_verification(*ty_args, **ty_kwargs):
                 if name in target_types:
                     if not isinstance(value, target_types[name]):
                         raise TypeError(
-                            'Argument {0} must {1}. Sorry !'.format(name, target_types[name])
+                            'Argument {0} must be {1}. Sorry !'.format(name, target_types[name])
                         )
             return func(*args, **kwargs)
         return wrapper
