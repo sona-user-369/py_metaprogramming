@@ -21,6 +21,6 @@ if __name__ == '__main__':
     # a.set_message('New message')
     # print(a())
     # utils.compare_object(2, 'string')
-    print(utils.facto(6))
+    print(utils.facto(90))
     print(utils.facto.ncall)
 
