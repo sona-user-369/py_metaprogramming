@@ -36,5 +36,5 @@ def facto(x):
 
 
 @deco_utils.provide_extra
-def extra_verif(x, y):
+def extra_verif(x, y, **kwargs):
     return x, y, x + y

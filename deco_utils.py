@@ -125,10 +125,13 @@ class Counter:
 
 
 def provide_extra(func):
+    if 'extra' in inspect.getfullargspec(func).args:
+        raise Exception('You have provided extra parameter that will not use')
+
     @wraps(func)
     def decorator(*args, **kwargs):
-        if 'extra' in inspect.getargs(func):
-            raise Exception('You have provided extra parameter that will not use')
+        print(inspect.getfullargspec(func).args)
+
         return func(*args, *kwargs)
     return decorator
 
