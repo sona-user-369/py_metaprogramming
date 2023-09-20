@@ -33,3 +33,8 @@ def facto(x):
     if x == 0:
         return 1
     return x*facto(x-1)
+
+
+@deco_utils.provide_extra
+def extra_verif(x, y):
+    return x, y, x + y

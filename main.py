@@ -15,12 +15,18 @@ def calculation(x, y):
     return utils.calculate(x, y)
 
 
+def extra(x, y, **kwargs):
+    return utils.extra_verif(x, y, **kwargs)
+
+
 if __name__ == '__main__':
     # logging.basicConfig(level=logging.WARNING)
     # a = calculation(2, 7)
     # a.set_message('New message')
     # print(a())
     # utils.compare_object(2, 'string')
-    print(utils.facto(90))
-    print(utils.facto.ncall)
+    # print(utils.facto(90))
+    # print(utils.facto.ncall)
+    extra(1, 2, extra=1)
+
 

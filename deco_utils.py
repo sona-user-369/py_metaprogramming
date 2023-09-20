@@ -1,3 +1,4 @@
+import inspect
 import types
 from functools import wraps, partial
 import time
@@ -114,10 +115,20 @@ class Counter:
 
     def __call__(self, *args, **kwargs):
         self.ncall += 1
-        return self.__wrapped__( *args, **kwargs)
+        return self.__wrapped__(*args, **kwargs)
 
     def __get__(self, instance, cls):
         if not instance:
             return self
 
-        return types.MethodType(self,instance)
+        return types.MethodType(self, instance)
+
+
+def provide_extra(func):
+    @wraps(func)
+    def decorator(*args, **kwargs):
+        if 'extra' in inspect.getargs(func):
+            raise Exception('You have provided extra parameter that will not use')
+        return func(*args, *kwargs)
+    return decorator
+
