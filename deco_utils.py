@@ -135,3 +135,15 @@ def provide_extra(func):
         return func(*args, *kwargs)
     return decorator
 
+
+def length_verification(cls):
+    original_attribute = cls.__getattribute__
+
+    def verify(self, name):
+        if len('{0}'.format(name)) > 5:
+            raise Exception('Defined attribute is too long. Please try again !')
+        return original_attribute(self, name)
+
+    cls.__getattribute__ = verify
+    return cls
+

@@ -32,9 +32,20 @@ def compare_object(x, y):
 def facto(x):
     if x == 0:
         return 1
-    return x*facto(x-1)
+    return x * facto(x - 1)
 
 
-@deco_utils.provide_extra
-def extra_verif(x, y, extra=None):
-    return x, y, x + y
+# @deco_utils.provide_extra
+# def extra_verif(x, y, extra=None):
+#     return x, y, x + y
+
+
+@deco_utils.length_verification
+class Execution:
+    initValue = 0
+
+    def __init__(self, value):
+        self.initValue = value
+
+    def first_attr(self):
+        return 1 > 2 < 3 < 5
