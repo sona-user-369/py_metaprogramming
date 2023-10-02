@@ -156,3 +156,8 @@ class Typed:
 
     def __init__(self, name):
         self._name = name
+
+    def __set__(self, instance, value):
+        if not isinstance(value, self._expected_type):
+            raise ValueError('Expected type is ' + str(self._expected_type))
+        instance.__dict__[self._name] = value
