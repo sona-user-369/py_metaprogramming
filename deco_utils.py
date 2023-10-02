@@ -32,6 +32,7 @@ def time_examination(func):
         result = func(*args, *kwargs)
         print('execution time is {0}'.format(time.time() - start))
         return result
+
     return decorator
 
 
@@ -86,7 +87,6 @@ def logged(level, message=None, name=None):
 
 
 def typing_verification(*ty_args, **ty_kwargs):
-
     def decorator(func):
 
         if not __debug__:
@@ -104,7 +104,9 @@ def typing_verification(*ty_args, **ty_kwargs):
                             'Argument {0} must be {1}. Sorry !'.format(name, target_types[name])
                         )
             return func(*args, **kwargs)
+
         return wrapper
+
     return decorator
 
 
@@ -133,6 +135,7 @@ def provide_extra(func):
         print(inspect.getfullargspec(func).args)
 
         return func(*args, *kwargs)
+
     return decorator
 
 
@@ -147,3 +150,9 @@ def length_verification(cls):
     cls.__getattribute__ = verify
     return cls
 
+
+class Typed:
+    _expected_type = type(None)
+
+    def __init__(self, name):
+        self._name = name
