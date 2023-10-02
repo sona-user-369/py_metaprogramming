@@ -161,3 +161,13 @@ class Typed:
         if not isinstance(value, self._expected_type):
             raise ValueError('Expected type is ' + str(self._expected_type))
         instance.__dict__[self._name] = value
+
+
+class Integer(Typed):
+    _expected_type = int
+
+
+class Float(Typed):
+    _expected_type = float
+
+
