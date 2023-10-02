@@ -29,6 +29,6 @@ if __name__ == '__main__':
     # print(utils.facto.ncall)
     # extra(1, 2)
     execu = utils.Execution(2)
-    execu.first_attr()
+    print(execu.initValue)
 
 
