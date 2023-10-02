@@ -171,3 +171,7 @@ class Float(Typed):
     _expected_type = float
 
 
+class OrderedDict(type):
+    def __new__(cls, clsname, bases, clsdicts):
+        getted_dict = dict(clsdicts)
+
