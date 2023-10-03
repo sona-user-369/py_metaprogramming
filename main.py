@@ -32,6 +32,9 @@ if __name__ == '__main__':
     # execu = utils.Execution(2)
     # print(execu.initValue)
     s = deco_utils.Store(2, 5.)
-    print(s.integer)
+    a = deco_utils.Integer()
+
+    print(a)
+    # print(s.integer)
 
 
