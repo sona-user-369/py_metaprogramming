@@ -1,5 +1,6 @@
 import inspect
 import types
+from collections import OrderedDict
 from functools import wraps, partial
 import time
 import logging
@@ -154,12 +155,12 @@ def length_verification(cls):
 class Typed:
     _expected_type = type(None)
 
-    def __init__(self, name):
+    def __init__(self, name=None):
         self._name = name
 
     def __set__(self, instance, value):
         if not isinstance(value, self._expected_type):
-            raise ValueError('Expected type is ' + str(self._expected_type))
+            raise ValueError('Expected type' + str(self._expected_type) + ' got ' + str(type(value)))
         instance.__dict__[self._name] = value
 
 
@@ -171,9 +172,29 @@ class Float(Typed):
     _expected_type = float
 
 
-class OrderedDict(type):
-    def __new__(cls, clsname, bases, clsdicts):
-        getted_dict = dict(clsdicts)
+class OrderedData(type):
+    def __new__(cls, clsname, bases, clsdict):
+        got_dict = dict(clsdict)
+        final_dict = []
+        for name, value in clsdict.items():
+            if isinstance(value, Typed):
+                value._name = name
+                final_dict.append(value)
+        got_dict['_result'] = final_dict
+        return type.__new__(cls, clsname, bases, got_dict)
+
+    @classmethod
+    def __prepare__(cls, clsname, bases):
+        return OrderedDict()
+
+
+class Store(metaclass=OrderedData):
+    integer = Integer()
+    float = Float()
+
+    def __init__(self, x, y):
+        self.integer = x
+        self.float = y
 
 
 

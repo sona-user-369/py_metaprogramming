@@ -1,5 +1,6 @@
 import logging
 
+import deco_utils
 import utils
 
 
@@ -28,7 +29,9 @@ if __name__ == '__main__':
     # print(utils.facto(90))
     # print(utils.facto.ncall)
     # extra(1, 2)
-    execu = utils.Execution(2)
-    print(execu.initValue)
+    # execu = utils.Execution(2)
+    # print(execu.initValue)
+    s = deco_utils.Store(2,5.)
+    print(s)
 
 
