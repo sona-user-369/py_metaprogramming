@@ -248,6 +248,6 @@ class MyClassWithAdditional(metaclass=MyMeta, add=True, is_for=False):
     pass
 
 
-
+# enforcing arguments signature
 
 
