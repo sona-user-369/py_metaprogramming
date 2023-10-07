@@ -250,3 +250,4 @@ class MyClassWithAdditional(metaclass=MyMeta, add=True, is_for=False):
 
 
 
+
