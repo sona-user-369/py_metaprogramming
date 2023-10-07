@@ -175,12 +175,12 @@ class Float(Typed):
 class OrderedData(type):
     def __new__(cls, clsname, bases, clsdict):
         got_dict = dict(clsdict)
-        final_dict = []
+        final_list = []
         for name, value in clsdict.items():
             if isinstance(value, Typed):
                 value._name = name
-                final_dict.append(value)
-        got_dict['_result'] = final_dict
+                final_list.append(value)
+        got_dict['_result'] = final_list
         return type.__new__(cls, clsname, bases, got_dict)
 
     @classmethod
@@ -197,4 +197,33 @@ class Store(metaclass=OrderedData):
         self.float = y
 
 
+# for controlling attribute. Let's see !
+
+
+class ControlAttr(OrderedDict):
+    def __init__(self, clsname):
+        self.clsname = clsname
+        super().__init__()
+
+    def __setitem__(self, name, value):
+        if name in self:
+            raise TypeError('{} is already defined in attributes of {}'.format(name, self.clsname),)
+        super().__setitem__(name, value)
+
+
+class PatchOrderedDict(type):
+    def __new__(cls, clsname, bases, clsidct):
+        d = dict()
+        d['_order'] = [name for name in clsidct if name[0] != '_']
+
+        return type.__new__(cls, clsname, bases, d)
+
+    @classmethod
+    def __prepare__(metacls, clsname, bases):
+        return ControlAttr(clsname)
+
+
+class NeverDuplicate(metaclass=PatchOrderedDict):
+    integer = Integer()
+    integer = Float()
 
