@@ -243,6 +243,7 @@ class MyMeta(type):
     def __init__(self, name, bases, ns, add=True, is_for=False):
         super().__init__(name, bases, ns)
 
+
 class MyClassWithAdditional(metaclass=MyMeta, add=True, is_for=False):
     pass
 
