@@ -225,5 +225,7 @@ class PatchOrderedDict(type):
 
 class NeverDuplicate(metaclass=PatchOrderedDict):
     integer = Integer()
-    integer = Float()
+    #integer = Float()
 
+
+# if you want to define an addittiona
