@@ -207,7 +207,7 @@ class ControlAttr(OrderedDict):
 
     def __setitem__(self, name, value):
         if name in self:
-            raise TypeError('{} is already defined in attributes of {}'.format(name, self.clsname),)
+            raise TypeError('{} is already defined in attributes of {}'.format(name, self.clsname), )
         super().__setitem__(name, value)
 
 
@@ -225,7 +225,27 @@ class PatchOrderedDict(type):
 
 class NeverDuplicate(metaclass=PatchOrderedDict):
     integer = Integer()
-    #integer = Float()
+    # integer = Float()
+
+# if you want to define an additional arguments
 
 
-# if you want to define an addittiona
+class MyMeta(type):
+    """using for defining a class that accept additional arguments"""
+
+    @classmethod
+    def __prepare__(metacls, name, bases, add=True, is_for=False):
+        super().__prepare__(name, bases)
+
+    def __new__(cls, name , bases, ns, add=True, is_for=False):
+        super().__new__(name, bases, ns)
+
+    def __init__(self, name, bases, ns, add=True, is_for=False):
+        super().__init__(name, bases, ns)
+
+class MyClassWithAdditional(metaclass=MyMeta, add=True, is_for=False):
+    pass
+
+
+
+
