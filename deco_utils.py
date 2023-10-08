@@ -5,6 +5,7 @@ from functools import wraps, partial
 import time
 import logging
 from inspect import signature, Parameter, Signature
+import operator
 
 
 def file_deco(func):
@@ -296,10 +297,52 @@ class CustomDefClass(RuleClass):
 
 
 # here any programmers who want to redefine return_function method must give params as given name in bases class
-class OtherDefClass(CustomDefClass):
-    def return_function(self, x, y):
-        return x, y, 1
+
+# class OtherDefClass(CustomDefClass):
+#     def return_function(self, x, y):
+#         return x, y, 1
 
 
+# hey if you want to create a class programmatically without using exec() method , here is this
+
+def __init__(self, name, parent):
+    self.name = name
+    self.parent = parent
 
 
+def show_identity(self):
+    return '{} have the parent {}'.format(self.name, self.parent)
+
+
+cls_dict = {
+    '__init__': __init__,
+    'show_identity': show_identity
+}
+
+ClassProg = types.new_class('ClassProg', (), {}, lambda ns: ns.update(cls_dict))
+
+
+# print(ClassProg('host1', 2).show_identity())
+
+
+# here is another fun use of metaclass : define part of class at definition time
+
+class StructTupleMeta(type):
+    def __init__(cls, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for n, name in enumerate(cls._fields):
+            setattr(cls, name, property(operator.itemgetter(n)))
+
+
+class StructTuple(tuple, metaclass=StructTupleMeta):
+    _fields = []
+
+    def __new__(cls, *args):
+        if len(cls._fields) != len(args):
+            raise Exception('{} arguments expected'.format(len(cls._fields)))
+        return super(StructTuple, cls).__new__(cls, args)
+        # For python 3.9. For elders versions using super().__new__(cls, args) works
+
+
+class StructClass(StructTuple):
+    _fields = ['name', 'parent']

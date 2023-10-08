@@ -35,8 +35,9 @@ if __name__ == '__main__':
     # a = deco_utils.Integer()
     #
     # deco_utils.BindThis(name='1')
-    a = deco_utils.OtherDefClass()
-    a.return_function(3, 4)
+    a = deco_utils.StructClass('host1', 1)
+    print(a.name)
+    # a.return_function(3, 4)
     # print(s.integer)
 
 
