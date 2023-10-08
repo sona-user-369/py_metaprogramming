@@ -31,10 +31,10 @@ if __name__ == '__main__':
     # extra(1, 2)
     # execu = utils.Execution(2)
     # print(execu.initValue)
-    s = deco_utils.Store(2, 5.)
-    a = deco_utils.Integer()
-
-    print(a)
+    # s = deco_utils.Store(2, 5.)
+    # a = deco_utils.Integer()
+    #
+    deco_utils.BindThis(name='1')
     # print(s.integer)
 
 

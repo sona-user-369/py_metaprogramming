@@ -4,7 +4,7 @@ from collections import OrderedDict
 from functools import wraps, partial
 import time
 import logging
-from inspect import signature
+from inspect import signature, Parameter, Signature
 
 
 def file_deco(func):
@@ -244,10 +244,26 @@ class MyMeta(type):
         super().__init__(name, bases, ns)
 
 
-class MyClassWithAdditional(metaclass=MyMeta, add=True, is_for=False):
-    pass
+# class MyClassWithAdditional(metaclass=MyMeta, add=True, is_for=False):
+#     pass
 
 
 # enforcing arguments signature
 
+def make_sig(*param) -> Signature:
+    params = [Parameter(name, Parameter.KEYWORD_ONLY) for name in param]
+    return Signature(params)
+
+
+class Structure:
+    __signature__ = make_sig()
+
+    def __init__(self, *args, **kwargs):
+        bound_values = self.__signature__.bind(*args, **kwargs)
+        for name, value in bound_values.arguments.items():
+            setattr(self, name, value)
+
+
+class BindThis(Structure):
+    __signature__ = make_sig('name', 'parent')
 
