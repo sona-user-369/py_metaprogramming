@@ -227,6 +227,7 @@ class NeverDuplicate(metaclass=PatchOrderedDict):
     integer = Integer()
     # integer = Float()
 
+
 # if you want to define an additional arguments
 
 
@@ -237,7 +238,7 @@ class MyMeta(type):
     def __prepare__(metacls, name, bases, add=True, is_for=False):
         super().__prepare__(name, bases)
 
-    def __new__(cls, name , bases, ns, add=True, is_for=False):
+    def __new__(cls, name, bases, ns, add=True, is_for=False):
         super().__new__(name, bases, ns)
 
     def __init__(self, name, bases, ns, add=True, is_for=False):
@@ -266,4 +267,39 @@ class Structure:
 
 class BindThis(Structure):
     __signature__ = make_sig('name', 'parent')
+
+
+# forcing programmers respecting some rules of your class
+
+class RuleDefinition(type):
+    def __init__(self, clsname, bases, clsdict):
+        super().__init__(clsname, bases, clsdict)
+        sup = super(self, self)
+        for name, value in clsdict.items():
+            if name.startswith('_') or not callable(value):
+                continue
+
+            if getattr(sup, name, None):
+                prev_def = signature(getattr(sup, name, None))
+                this_def = signature(value)
+                if prev_def != this_def:
+                    raise Exception('arguments are not same')
+
+
+class RuleClass(metaclass=RuleDefinition):
+    pass
+
+
+class CustomDefClass(RuleClass):
+    def return_function(self, a, b):
+        return a, b
+
+
+# here any programmers who want to redefine return_function method must give params as given name in bases class
+class OtherDefClass(CustomDefClass):
+    def return_function(self, x, y):
+        return x, y, 1
+
+
+
 

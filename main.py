@@ -34,7 +34,9 @@ if __name__ == '__main__':
     # s = deco_utils.Store(2, 5.)
     # a = deco_utils.Integer()
     #
-    deco_utils.BindThis(name='1')
+    # deco_utils.BindThis(name='1')
+    a = deco_utils.OtherDefClass()
+    a.return_function(3, 4)
     # print(s.integer)
 
 
